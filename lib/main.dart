@@ -5,6 +5,7 @@ import 'package:sqlite_demo/database/user_database.dart';
 import 'package:sqlite_demo/database/user_entity.dart';
 import 'package:sqlite_demo/database/userdao.dart';
 import 'package:sqlite_demo/extension.dart';
+import 'package:sqlite_demo/miniplayer/animate_content.dart';
 
 import 'dart:math';
 import 'package:sqlite_demo/preferences/shared_preferences.dart';
@@ -133,6 +134,15 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => ScreenMutilScreen()));
                   },
                   child: Text("go to screen Multi Provider")),
+
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AnimatedContentScreen()));
+                  },
+                  child: Text("go to screen Animated"))
             ],
           ),
         ],
