@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:floor/floor.dart';
 
 @Entity(tableName: "User")
@@ -17,5 +19,7 @@ class User {
 }
 
 User fakeUser(int id) {
-  return User(id, "name:$id", "Ha Noi", "11/11/1996");
+  var rd= Random();
+  return User(id, "name:$id", "Ha Noi",
+      "${rd.nextInt(30)}/${rd.nextInt(12)}/19${rd.nextInt(99)}");
 }

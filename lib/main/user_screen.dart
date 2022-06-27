@@ -146,7 +146,7 @@ class _UserHomeState extends State<UserHome> {
                         fontSize: 20),
                     textAlign: TextAlign.start,
                   ),
-                  Text(user.name,
+                  Text(user.date,
                       style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.normal,
