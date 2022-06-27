@@ -2,30 +2,27 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/database/user_database.dart';
-import 'package:sqlite_demo/database/user_entity.dart';
 import 'package:sqlite_demo/database/userdao.dart';
-import 'package:sqlite_demo/extension.dart';
-import 'package:sqlite_demo/miniplayer/animate_content.dart';
+import 'package:sqlite_demo/main/user_screen.dart';
 
-import 'dart:math';
-import 'package:sqlite_demo/preferences/shared_preferences.dart';
 import 'package:sqlite_demo/provider/screen/screen_count.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_comsumer.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_mutil_provider.dart';
-import 'package:sqlite_demo/user_bloc.dart';
+
+import 'animate/animate_screen.dart';
+import 'main/user_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   UserDatabase db =
       await $FloorUserDatabase.databaseBuilder(user_table_name).build();
-  final dao = db.userDao;
-  runApp(MyApp(dao));
+  runApp(MyApp(db));
 }
 
 class MyApp extends StatelessWidget {
-  UserDao dao;
+  UserDatabase db;
 
-  MyApp(this.dao);
+  MyApp(this.db);
 
   // This widget is the root of your application.
   @override
@@ -36,25 +33,27 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(dao),
+      home: HomePage(db),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  UserDao dao;
+  UserDatabase db;
 
-  HomePage(this.dao);
+  HomePage(this.db);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  UserBloc bloc = UserBloc();
+  late UserBloc bloc;
 
   @override
   void initState() {
+    bloc = UserBloc(widget.db);
+    bloc.initData();
     super.initState();
   }
 
@@ -66,10 +65,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<List<User>> users = widget.dao.getAllUsers();
-    users.asBroadcastStream().listen((event) {
-      notify("$event");
-    });
     return Scaffold(
       appBar: AppBar(title: Text("Screen Main")),
       body: Container(
@@ -80,79 +75,26 @@ class _HomePageState extends State<HomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              StreamBuilder(
-                  stream: users,
-                  builder: (context, data) => Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Text(
-                          data.hasData
-                              ? "user : ${(data.data as List<User>).length}"
-                              : "user: 0",
-                          style: const TextStyle(fontSize: 20),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        ),
-                      )),
-              StreamBuilder(
-                  stream: bloc.nameStream,
-                  builder: (context, data) => Text(
-                      data.hasData ? data.data.toString() : "null",
-                      style: const TextStyle(
-                          fontSize: 20, color: Colors.deepOrange))),
-              Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 16),
-                  child: SizedBox(
-                      width: 150,
-                      height: 56,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            bloc.deleteUser(widget.dao);
-                          },
-                          child: Text(
-                            "delete",
-                            style: TextStyle(color: Colors.amberAccent),
-                          )))),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ScreenCount()));
-                  },
-                  child: Text("go to screen counter")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ScreenConsumer()));
-                  },
-                  child: Text("go to screen Consumer")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ScreenMutilScreen()));
-                  },
-                  child: Text("go to screen Multi Provider")),
-
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AnimatedContentScreen()));
-                  },
-                  child: Text("go to screen Animated"))
+              featureButton(UserScreen(widget.db), "go to User screen"),
+              featureButton(const ScreenCount(), "go to screen counter"),
+              featureButton(const ScreenConsumer(), "go to screen Consumer"),
+              featureButton(
+                  const ScreenMutilScreen(), "go to screen Multi Provider"),
+              featureButton(
+                  const AnimatedContentScreen(), "go to screen Animated"),
             ],
           ),
         ],
       )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          bloc.insertUser(widget.dao);
-        },
-        child: const Icon(Icons.plus_one),
-      ),
     );
+  }
+
+  Widget featureButton(Widget screen, String txt) {
+    return ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => screen));
+        },
+        child: Text(txt));
   }
 }

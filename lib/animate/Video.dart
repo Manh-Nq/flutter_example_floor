@@ -9,11 +9,11 @@ class UserVideo {
     required this.subscribers,
   });
 }
+
 const UserVideo currentUser = UserVideo(
-  username: 'Marcus Ng',
-  profileImageUrl:
-  'https://yt3.ggpht.com/ytc/AAUvwniE2k5PgFu9yr4sBVEs9jdpdILdMc7ruiPw59DpS0k=s88-c-k-c0x00ffffff-no-rj',
-  subscribers: '100K',
+  username: 'Animal',
+  profileImageUrl: 'https://www.flaticon.com/free-icon/poster_252341',
+  subscribers: '100tr',
 );
 
 class Video {
@@ -39,4 +39,26 @@ class Video {
     required this.dislikes,
   });
 }
+List<Video> fakeItems() {
+  List<Video> videos=[];
+  for(int i=0; i<10;i++){
+    videos.add(fakeVideo());
+  }
 
+  return videos;
+}
+
+Video fakeVideo(){
+  return  Video(
+    id: 'x606y4QWrxo',
+    author: currentUser,
+    title: 'this is animal in animal world',
+    thumbnailUrl:
+    'https://images.pexels.com/photos/751829/pexels-photo-751829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    duration: '8:20',
+    timestamp: DateTime(2021, 3, 20),
+    viewCount: '10K',
+    likes: '958',
+    dislikes: '4',
+  );
+}

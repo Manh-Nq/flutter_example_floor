@@ -155,9 +155,9 @@ class _$UserDao extends UserDao {
   }
 
   @override
-  Future<void> deleteRandom() async {
+  Future<void> deleteUserByID(int id) async {
     await _queryAdapter
-        .queryNoReturn('DELETE FROM User WHERE random() > 5534023222112865485');
+        .queryNoReturn('DELETE FROM User WHERE id = ?1', arguments: [id]);
   }
 
   @override

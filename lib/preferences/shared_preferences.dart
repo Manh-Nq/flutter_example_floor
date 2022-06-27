@@ -10,11 +10,7 @@ class ShareApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'SharedPreferences Demo',
-      home: SharedPreferencesDemo(),
-    );
+    return const SharedPreferencesDemo();
   }
 }
 

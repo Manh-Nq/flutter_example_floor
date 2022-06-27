@@ -15,3 +15,7 @@ class User {
     return "id : $id - name: $name\n";
   }
 }
+
+User fakeUser(int id) {
+  return User(id, "name:$id", "Ha Noi", "11/11/1996");
+}

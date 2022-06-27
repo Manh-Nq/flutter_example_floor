@@ -18,8 +18,8 @@ abstract class UserDao {
   @Query('DELETE FROM User')
   Future<void> deleteUser();
 
-  @Query('DELETE FROM User WHERE random() > 5534023222112865485')
-  Future<void> deleteRandom();
+  @Query('DELETE FROM User WHERE id = :id')
+  Future<void> deleteUserByID(int id);
 
   @insert
   Future<void> addUser(User user);
