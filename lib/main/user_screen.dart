@@ -16,11 +16,7 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CounterProvider(),
-      child: UserHome(db),
-    );
-    // return Center(child: UserHome());
+    return UserHome(db);
   }
 }
 
