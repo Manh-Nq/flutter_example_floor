@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sqlite_demo/database/user_database.dart';
 import 'package:sqlite_demo/database/userdao.dart';
 import 'package:sqlite_demo/main/user_screen.dart';
+import 'package:sqlite_demo/preferences/shared_preferences.dart';
 
 import 'package:sqlite_demo/provider/screen/screen_count.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_comsumer.dart';
@@ -82,6 +83,8 @@ class _HomePageState extends State<HomePage> {
                   const ScreenMutilScreen(), "go to screen Multi Provider"),
               featureButton(
                   const AnimatedContentScreen(), "go to screen Animated"),
+              featureButton(
+                  const ShareApp(), "go to screen Share"),
             ],
           ),
         ],

@@ -9,10 +9,10 @@ abstract class UserDao {
   @Query('SELECT * FROM User')
   Stream<List<User>> getAllUsers();
 
-  @Query('SELECT name FROM User WHERE id = :id')
-  Future<String?> findUserNameByID(int id);
+  @Query('SELECT * FROM User WHERE id = :id')
+  Future<User?> findUserNameByID(int id);
 
-  @Update()
+  @Update(onConflict: OnConflictStrategy.replace)
   Future<void> updateUser(User user);
 
   @Query('DELETE FROM User')

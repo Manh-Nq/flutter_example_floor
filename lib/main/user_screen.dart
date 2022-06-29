@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sqlite_demo/database/user_database.dart';
+import 'package:sqlite_demo/extension.dart';
 import 'package:sqlite_demo/main/user_bloc.dart';
 import 'package:sqlite_demo/provider/CounterProvider.dart';
 
@@ -37,7 +38,8 @@ class _UserHomeState extends State<UserHome> {
   void initState() {
     bloc = UserBloc(widget.db);
     bloc.initData();
-    controller = ScrollController()..addListener(_scrollListener);
+    controller = ScrollController()
+      ..addListener(_scrollListener);
     super.initState();
   }
 
@@ -69,13 +71,37 @@ class _UserHomeState extends State<UserHome> {
                   featureButton(() {
                     bloc.insertUser();
                   }, "add User"),
+                  featureButton(() {
+                    bloc.getUserByID(22224197);
+                  }, "find"),
                 ]),
+            StreamBuilder(
+                stream: bloc.nameStream,
+                builder: (context, data) {
+                  var name = data.hasData == true
+                      ? (data.data as String)
+                      : "hello";
+
+                  notify(name.toString());
+
+                  return Text(
+                    "---- $name ----",
+                    style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                    textAlign: TextAlign.start,
+                  );
+                }),
+
             StreamBuilder(
                 stream: bloc.userStream,
                 builder: (context, data) {
                   var items = data.hasData == true
                       ? (data.data as List<User>)
                       : List.empty();
+
+                  notify(items.toString());
 
                   return Expanded(
                     flex: 1,
@@ -96,10 +122,18 @@ class _UserHomeState extends State<UserHome> {
                                 controller: controller,
                                 itemBuilder: (context, index) {
                                   return userItemView(() {
-                                    bloc.deleteUserByID((items[index] as User).id);
+                                    bloc.deleteUserByID(
+                                        (items[index] as User).id);
+                                  }, (user) {
+                                    //update
+                                    notify(user.name);
+                                    bloc.update(user.id);
                                   },
                                       items[index],
-                                      MediaQuery.of(context).size.width,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width,
                                       Random().nextInt(10) / 10);
                                 },
                                 itemCount: items.length,
@@ -121,8 +155,8 @@ class _UserHomeState extends State<UserHome> {
         child: Text(txt));
   }
 
-  Widget userItemView(
-      VoidCallback func, User user, double width, double alpha) {
+  Widget userItemView(VoidCallback func, ActionCallback action, User user,
+      double width, double alpha) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -160,7 +194,18 @@ class _UserHomeState extends State<UserHome> {
             padding: const EdgeInsets.only(right: 16),
           ),
         ),
+        GestureDetector(
+          onTap: () {
+            action(user);
+          }, // Image tapped
+          child: Container(
+            child: Icon(Icons.update),
+            padding: const EdgeInsets.only(right: 16),
+          ),
+        ),
       ],
     );
   }
 }
+
+typedef ActionCallback = void Function(User user);

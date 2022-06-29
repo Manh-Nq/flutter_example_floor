@@ -144,9 +144,14 @@ class _$UserDao extends UserDao {
   }
 
   @override
-  Future<String?> findUserNameByID(int id) async {
-    await _queryAdapter
-        .queryNoReturn('SELECT name FROM User WHERE id = ?1', arguments: [id]);
+  Future<User?> findUserNameByID(int id) async {
+    return _queryAdapter.query('SELECT * FROM User WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => User(
+            row['id'] as int,
+            row['name'] as String,
+            row['address'] as String,
+            row['date'] as String),
+        arguments: [id]);
   }
 
   @override
@@ -167,6 +172,6 @@ class _$UserDao extends UserDao {
 
   @override
   Future<void> updateUser(User user) async {
-    await _userUpdateAdapter.update(user, OnConflictStrategy.abort);
+    await _userUpdateAdapter.update(user, OnConflictStrategy.replace);
   }
 }
