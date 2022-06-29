@@ -15,7 +15,8 @@ class UserBloc {
   final StreamController<List<User>> _streamUserController =
       StreamController<List<User>>();
 
-  final StreamController<String> _streamName = StreamController<String>();
+  final StreamController<String> _streamName =
+  StreamController<String>();
 
   Stream get nameStream => _streamName.stream;
 
@@ -24,6 +25,7 @@ class UserBloc {
   Stream get userStream => _streamUserController.stream;
 
   UserDao get dao => db.userDao;
+
 
   Future<void> initData() async {
     db.userDao.getAllUsers().listen((data) {
@@ -45,14 +47,19 @@ class UserBloc {
     await dao.addUser(user);
   }
 
+  Future<void> deleteAll() async {
+    await dao.deleteUser();
+    initData();
+  }
+
   Future<void> deleteUserByID(int id) async {
     await dao.deleteUserByID(id);
     initData();
   }
 
+
   Future<void> update(int id) async {
-    await dao.updateUser(User(id, randomString(), "new  address",
-        "${Random().nextInt(30)}/${Random().nextInt(12)}/2022"));
+    await dao.updateUser(User(id, randomString(), "new  address", "${Random().nextInt(30)}/${Random().nextInt(12)}/2022"));
   }
 
   void dispose() {

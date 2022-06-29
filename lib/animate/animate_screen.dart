@@ -101,6 +101,9 @@ Widget _fullScreen(MiniplayerController provider, double percentage,
                   height: lerpDouble(56, 220, percentage),
                   width: lerpDouble(120, width, percentage),
                   fit: BoxFit.cover,
+                  errorBuilder: (_,err,ss){
+                    return Text("data");
+                  },
                 ),
               ),
             ],
@@ -186,13 +189,13 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Demo: FirstScreen')),
+      appBar: AppBar(title: const Text('Demo: FirstScreen')),
       body: Container(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: const [
               Text('animate Screen'),
             ]),
       ),

@@ -2,11 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sqlite_demo/database/user_database.dart';
 import 'package:sqlite_demo/extension.dart';
-import 'package:sqlite_demo/main/user_bloc.dart';
-import 'package:sqlite_demo/provider/CounterProvider.dart';
+import 'package:sqlite_demo/userscreen/user_bloc.dart';
 
 import '../database/user_entity.dart';
 
@@ -46,7 +44,7 @@ class _UserHomeState extends State<UserHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Screen Main")), body: bodyUser());
+        appBar: AppBar(title: Text("Screen User")), body: bodyUser());
   }
 
   void _scrollListener() {
@@ -58,7 +56,6 @@ class _UserHomeState extends State<UserHome> {
 
   Widget bodyUser() {
     return Container(
-        padding: EdgeInsets.only(top: 56.0),
         child: Column(
           children: [
             Row(
@@ -66,7 +63,7 @@ class _UserHomeState extends State<UserHome> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   featureButton(() {
-                    bloc.deleteUser();
+                    bloc.deleteAll();
                   }, "delete"),
                   featureButton(() {
                     bloc.insertUser();
@@ -74,25 +71,11 @@ class _UserHomeState extends State<UserHome> {
                   featureButton(() {
                     bloc.getUserByID(22224197);
                   }, "find"),
+
+                  featureButton(() {
+
+                  }, "cancel"),
                 ]),
-            StreamBuilder(
-                stream: bloc.nameStream,
-                builder: (context, data) {
-                  var name = data.hasData == true
-                      ? (data.data as String)
-                      : "hello";
-
-                  notify(name.toString());
-
-                  return Text(
-                    "---- $name ----",
-                    style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                    textAlign: TextAlign.start,
-                  );
-                }),
 
             StreamBuilder(
                 stream: bloc.userStream,

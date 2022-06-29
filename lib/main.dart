@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/database/user_database.dart';
 import 'package:sqlite_demo/database/userdao.dart';
-import 'package:sqlite_demo/main/user_screen.dart';
 import 'package:sqlite_demo/preferences/shared_preferences.dart';
 
 import 'package:sqlite_demo/provider/screen/screen_count.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_comsumer.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_mutil_provider.dart';
+import 'package:sqlite_demo/userscreen/user_bloc.dart';
+import 'package:sqlite_demo/userscreen/user_screen.dart';
 
 import 'animate/animate_screen.dart';
-import 'main/user_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
