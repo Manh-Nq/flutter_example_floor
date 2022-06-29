@@ -70,11 +70,7 @@ class _UserHomeState extends State<UserHome> {
                   }, "add User"),
                   featureButton(() {
                     bloc.getUserByID(22224197);
-                  }, "find"),
-
-                  featureButton(() {
-
-                  }, "cancel"),
+                  }, "find")
                 ]),
 
             StreamBuilder(
