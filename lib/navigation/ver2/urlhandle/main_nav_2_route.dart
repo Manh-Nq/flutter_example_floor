@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/extension.dart';
-import 'package:sqlite_demo/navigation/ver2/urlhandle/delegate.dart';
-import 'package:sqlite_demo/navigation/ver2/urlhandle/parse_infomation.dart';
+import 'package:sqlite_demo/navigation/ver2/urlhandle/components/delegate.dart';
+import 'package:sqlite_demo/navigation/ver2/urlhandle/components/parse_infomation.dart';
 
-import '../model/user.dart';
+import '../../model/user.dart';
 
 void main() {
   runApp(MyApp2());
@@ -32,9 +32,9 @@ class _MyApp2State extends State<MyApp2> {
 }
 
 class UsersHome extends StatelessWidget {
-  final ValueChanged didSelectUser;
+  final ValueChanged onSelect;
 
-  UsersHome({required this.didSelectUser});
+  UsersHome({required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class UsersHome extends StatelessWidget {
                     return Card(
                         child: ListTile(
                       title: Text(user.id),
-                      onTap: () => didSelectUser(user.id),
+                      onTap: () => onSelect(user.id),
                     ));
                   }),
             )
@@ -64,14 +64,43 @@ class UserDetailsView extends StatelessWidget {
   static const valueKey = ValueKey('UserDetailsView');
 
   final String? id;
+  final ValueChanged onEventUser;
 
-  UserDetailsView({this.id});
+
+  UserDetailsView(this.id, this.onEventUser);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('User Details')),
-        body: Center(child: Text('Hello, $id')));
+        body: Center(child: Column(children: [
+          featureButton(() {
+            onEventUser("settings");
+        },
+              "go to settings"),
+
+          Text('Hello, $id')
+        ],)));
+  }
+}
+
+class SettingScreen extends StatelessWidget {
+  static const valueKey = ValueKey('SettingScreen');
+
+  final VoidCallback onEventUser;
+
+  SettingScreen(this.onEventUser);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text('Settings')),
+        body: Center(child: Column(children: [
+          featureButton(() {
+            onEventUser();
+          },
+              "go to back")
+        ],)));
   }
 }
 
