@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/extension.dart';
 
-import '../model/user.dart';
+import '../../model/user.dart';
 
 void main() {
   runApp(MyApp());

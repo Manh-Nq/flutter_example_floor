@@ -10,7 +10,7 @@ class UserRouteInfomationParser extends RouteInformationParser<ScreenState> {
       RouteInformation routeInformation) async {
     var uri = Uri.parse(routeInformation.location ?? "");
 
- notify("${uri}");
+     notify("[parseRouteInformation]  ${uri}");
 
     var pathSegment = uri.pathSegments;
 

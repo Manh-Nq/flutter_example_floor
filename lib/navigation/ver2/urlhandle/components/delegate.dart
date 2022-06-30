@@ -19,6 +19,9 @@ class UserDelegate extends RouterDelegate<ScreenState>
 
   @override
   ScreenState? get currentConfiguration {
+
+    notify("currentConfiguration");
+
     if (_showErr) return ScreenState.err;
 
     if (_screenRoute == null) return ScreenState.home;
@@ -77,5 +80,6 @@ class UserDelegate extends RouterDelegate<ScreenState>
   @override
   Future<void> setNewRoutePath(ScreenState state) async {
     //config
+    notify("[setNewRoutePath] ${state.toString()}");
   }
 }
