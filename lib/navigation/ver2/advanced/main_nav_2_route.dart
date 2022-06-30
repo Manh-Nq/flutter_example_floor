@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/extension.dart';
-import 'package:sqlite_demo/navigation/ver2/urlhandle/components/delegate.dart';
-import 'package:sqlite_demo/navigation/ver2/urlhandle/components/parse_infomation.dart';
+import 'package:sqlite_demo/navigation/ver2/advanced/components/delegate.dart';
+import 'package:sqlite_demo/navigation/ver2/advanced/components/parse_infomation.dart';
 
 import '../../model/user.dart';
 

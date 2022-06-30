@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/extension.dart';
-import 'package:sqlite_demo/navigation/ver2/urlhandle/components/user_route.dart';
+import 'package:sqlite_demo/navigation/ver2/advanced/components/user_route.dart';
 import 'package:sqlite_demo/provider/TextChangeProvider.dart';
 
 class UserRouteInfomationParser extends RouteInformationParser<ScreenState> {
