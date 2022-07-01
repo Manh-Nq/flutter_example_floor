@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../model/book_route_path.dart';
-import '../nested_main.dart';
+import '../nested_screen.dart';
 
 class BookRouteInformationParser extends RouteInformationParser<BookRoutePath> {
   @override

@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../nested_main.dart';
+import '../nested_screen.dart';
 
 class BooksListScreen extends StatelessWidget {
   final List<Book> books;

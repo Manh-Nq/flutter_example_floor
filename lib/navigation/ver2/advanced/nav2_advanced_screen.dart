@@ -5,8 +5,13 @@ import 'package:sqlite_demo/navigation/ver2/advanced/components/parse_infomation
 
 import '../../model/user.dart';
 
-void main() {
-  runApp(MyApp2());
+class Nav2AdvancedScreen extends StatelessWidget {
+  const Nav2AdvancedScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  MyApp2();
+  }
 }
 
 // const String SCREEN_2 = "sreen2";
@@ -22,12 +27,16 @@ class _MyApp2State extends State<MyApp2> {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp.router(
-      title: 'User App',
-      debugShowCheckedModeBanner: false,
       routerDelegate: _routerDelegate,
-      routeInformationParser: _routeInformationParser
+      routeInformationParser: _routeInformationParser,
     );
+  }
+
+  Future<bool> _backPressCallback() async{
+    notify("_backPressCallback");
+    return true;
   }
 }
 
@@ -64,46 +73,47 @@ class UserDetailsView extends StatelessWidget {
   static const valueKey = ValueKey('UserDetailsView');
 
   final String? id;
-  final ValueChanged onEventUser;
+  final ValueChanged onUserClicked;
 
-
-  UserDetailsView(this.id, this.onEventUser);
+  UserDetailsView(this.id, this.onUserClicked);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('User Details')),
-        body: Center(child: Column(children: [
-          featureButton(() {
-            onEventUser("settings");
-        },
-              "go to settings"),
-
-          Text('Hello, $id')
-        ],)));
+        body: Center(
+            child: Column(
+          children: [
+            featureButton(() {
+              onUserClicked("settings");
+            }, "go to settings"),
+            Text('Hello, $id')
+          ],
+        )));
   }
 }
 
 class SettingScreen extends StatelessWidget {
   static const valueKey = ValueKey('SettingScreen');
 
-  final VoidCallback onEventUser;
+  final VoidCallback onUserClicked;
 
-  SettingScreen(this.onEventUser);
+  SettingScreen(this.onUserClicked);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('Settings')),
-        body: Center(child: Column(children: [
-          featureButton(() {
-            onEventUser();
-          },
-              "go to back")
-        ],)));
+        body: Center(
+            child: Column(
+          children: [
+            featureButton(() {
+              onUserClicked();
+            }, "go to back")
+          ],
+        )));
   }
 }
-
 
 Widget featureButton(VoidCallback callback, String txt) {
   return ElevatedButton(

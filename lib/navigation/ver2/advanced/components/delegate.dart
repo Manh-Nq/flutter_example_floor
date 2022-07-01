@@ -4,7 +4,7 @@ import 'package:sqlite_demo/extension.dart';
 import 'package:sqlite_demo/navigation/ver2/advanced/components/user_route.dart';
 import 'package:sqlite_demo/navigation/model/user.dart';
 
-import '../main_nav_2_route.dart';
+import '../nav2_advanced_screen.dart';
 
 
 class UserDelegate extends RouterDelegate<ScreenState>
@@ -20,7 +20,7 @@ class UserDelegate extends RouterDelegate<ScreenState>
   @override
   ScreenState? get currentConfiguration {
 
-    notify("currentConfiguration");
+    notify("currentConfiguration _showErr $_showErr  -_screenRoute $_screenRoute");
 
     if (_showErr) return ScreenState.err;
 

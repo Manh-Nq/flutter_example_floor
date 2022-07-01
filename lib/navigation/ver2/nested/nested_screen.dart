@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite_demo/extension.dart';
 
 import 'book_notify_changer.dart';
 import 'bookrouter/book_delegate.dart';
 import 'bookrouter/book_parser.dart';
 import 'innerrouter/inner_delegate.dart';
-
-void main() {
-  runApp(NestedRouterDemo());
-}
 
 class Book {
   final String title;
@@ -16,12 +13,12 @@ class Book {
   Book(this.title, this.author);
 }
 
-class NestedRouterDemo extends StatefulWidget {
+class NestedScreen extends StatefulWidget {
   @override
-  _NestedRouterDemoState createState() => _NestedRouterDemoState();
+  _NestedScreenState createState() => _NestedScreenState();
 }
 
-class _NestedRouterDemoState extends State<NestedRouterDemo> {
+class _NestedScreenState extends State<NestedScreen> {
 
   final BookRouterDelegate _routerDelegate = BookRouterDelegate();
 
@@ -71,7 +68,12 @@ class _AppShellState extends State<AppShell> {
     // Defer back button dispatching to the child router
     _backButtonDispatcher = Router.of(context)
         .backButtonDispatcher
-        ?.createChildBackButtonDispatcher();
+        ?.createChildBackButtonDispatcher()?..addCallback(() => _callback());
+  }
+
+  Future<bool> _callback() async {
+    notify("backPress");
+    return true;
   }
 
   @override
@@ -89,7 +91,7 @@ class _AppShellState extends State<AppShell> {
         backButtonDispatcher: _backButtonDispatcher,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: 'Settings'),
@@ -99,25 +101,6 @@ class _AppShellState extends State<AppShell> {
           appState.selectedIndex = newIndex;
         },
       ),
-    );
-  }
-}
-
-class FadeAnimationPage extends Page {
-  final Widget child;
-
-  FadeAnimationPage({Key? key, required this.child});
-
-  Route createRoute(BuildContext context) {
-    return PageRouteBuilder(
-      settings: this,
-      pageBuilder: (context, animation, animation2) {
-        var curveTween = CurveTween(curve: Curves.easeIn);
-        return FadeTransition(
-          opacity: animation.drive(curveTween),
-          child: child,
-        );
-      },
     );
   }
 }

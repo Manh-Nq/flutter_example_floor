@@ -3,18 +3,14 @@ import 'package:sqlite_demo/extension.dart';
 
 import '../../model/user.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
 const String SCREEN_2_ROUTE = "sreen2";
 
-class MyApp extends StatefulWidget {
+class Nav2SampleScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MyAppState();
+  State<StatefulWidget> createState() => _Nav2SampleScreenState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _Nav2SampleScreenState extends State<Nav2SampleScreen> {
   String? _screenRoute;
 
   void _onChange(String? route) {

@@ -7,7 +7,7 @@ import 'package:sqlite_demo/navigation/ver2/nested/screen/setting_screen.dart';
 
 import '../book_notify_changer.dart';
 import '../model/book_route_path.dart';
-import '../nested_main.dart';
+import '../nested_screen.dart';
 
 class InnerRouterDelegate extends RouterDelegate<BookRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BookRoutePath> {
@@ -35,7 +35,7 @@ class InnerRouterDelegate extends RouterDelegate<BookRoutePath>
       key: navigatorKey,
       pages: [
         if (appState.selectedIndex == 0) ...[
-          FadeAnimationPage(
+          MaterialPage(
             child: BooksListScreen(
               books: books,
               onTapped: _handleBookTapped,

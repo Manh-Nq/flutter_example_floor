@@ -13,17 +13,10 @@ import 'package:sqlite_demo/userscreen/user_screen.dart';
 
 import 'animate/animate_screen.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  UserDatabase db =
-      await $FloorUserDatabase.databaseBuilder(user_table_name).build();
-  runApp(MyApp(db));
-}
-
-class MyApp extends StatelessWidget {
+class HomeDatabase extends StatelessWidget {
   UserDatabase db;
 
-  MyApp(this.db);
+  HomeDatabase(this.db);
 
   // This widget is the root of your application.
   @override

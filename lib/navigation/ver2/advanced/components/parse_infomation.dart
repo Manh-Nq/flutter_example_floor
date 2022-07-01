@@ -23,7 +23,7 @@ class UserRouteInfomationParser extends RouteInformationParser<ScreenState> {
       return ScreenState.detail;
     }
 
-    return ScreenState.detail;
+    return ScreenState.home;
   }
 
   @override
@@ -31,7 +31,7 @@ class UserRouteInfomationParser extends RouteInformationParser<ScreenState> {
     pushLog(state.toString(), "restoreRouteInformation");
 
     if (state == ScreenState.home) {
-      return RouteInformation(location: '/');
+      return RouteInformation(location: '/home');
     }
 
     if (state == ScreenState.err) {

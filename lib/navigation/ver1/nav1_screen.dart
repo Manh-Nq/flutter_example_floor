@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/extension.dart';
 
-void main() {
-  runApp(Nav2App());
-}
 
-class Nav2App extends StatelessWidget {
+class Nav1Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
