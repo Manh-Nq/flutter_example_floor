@@ -13,10 +13,10 @@ import 'package:sqlite_demo/userscreen/user_screen.dart';
 
 import 'animate/animate_screen.dart';
 
-class HomeDatabase extends StatelessWidget {
+class HomeGeneralScreen extends StatelessWidget {
   UserDatabase db;
 
-  HomeDatabase(this.db);
+  HomeGeneralScreen(this.db);
 
   // This widget is the root of your application.
   @override

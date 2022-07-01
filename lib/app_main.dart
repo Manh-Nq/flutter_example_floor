@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'database/user_database.dart';
 import 'database/userdao.dart';
-import 'main.dart';
+import 'home_general_screen.dart';
 import 'navigation/ver1/nav1_screen.dart';
 import 'navigation/ver2/advanced/nav2_advanced_screen.dart';
 import 'navigation/ver2/nested/nested_screen.dart';

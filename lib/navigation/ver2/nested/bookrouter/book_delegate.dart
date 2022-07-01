@@ -17,9 +17,6 @@ class BookRouterDelegate extends RouterDelegate<BookRoutePath>
   }
 
   BookRoutePath get currentConfiguration {
-
-    notify("[Bookdelegate Route]${appState.selectedIndex.toString()}");
-
     if (appState.selectedIndex == 1) {
       return BooksSettingsPath();
     } else {

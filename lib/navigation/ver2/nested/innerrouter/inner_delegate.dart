@@ -29,8 +29,6 @@ class InnerRouterDelegate extends RouterDelegate<BookRoutePath>
   @override
   Widget build(BuildContext context) {
 
-    notify("[BUILD] ${appState.selectedIndex}");
-
     return Navigator(
       key: navigatorKey,
       pages: [

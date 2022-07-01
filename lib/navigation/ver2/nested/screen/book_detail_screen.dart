@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sqlite_demo/navigation/ver2/sample_basic/nav2_sample_screen.dart';
 
+import '../model/book_route_path.dart';
 import '../nested_screen.dart';
 
 class BookDetailsScreen extends StatelessWidget {
