@@ -11,7 +11,7 @@ import 'package:sqlite_demo/provider/screen/screen_count_mutil_provider.dart';
 import 'package:sqlite_demo/userscreen/user_bloc.dart';
 import 'package:sqlite_demo/userscreen/user_screen.dart';
 
-import 'animate/animate_screen.dart';
+import 'animate/example_mini_player.dart';
 
 class HomeGeneralScreen extends StatelessWidget {
   UserDatabase db;

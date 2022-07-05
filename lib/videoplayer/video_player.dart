@@ -5,6 +5,7 @@ import 'package:sqlite_demo/videoplayer/player_provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../animate/Video.dart';
+import '../animate/example_mini_player.dart';
 import '../animate/video_card.dart';
 
 class VideoPLayerScreen extends StatelessWidget {
@@ -31,7 +32,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     context.read<PlayerManager>().init();
-    scrollController = ScrollController()..addListener(_scrollListener);
+    scrollController = ScrollController();
     super.initState();
   }
 
@@ -43,32 +44,59 @@ class _HomeState extends State<Home> {
     super.didChangeDependencies();
   }
 
+  void _calculate(double offset) {
+    setState(() {
+      if (_height > 50) {
+        _height -= offset;
+      } else {
+        _height = _height;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var controller = context.read<PlayerManager>().controller;
-    return Stack(
-      children: [_videoScreenHome(controller, scrollController)],
-    );
-  }
-
-  Widget _videoScreenHome(
-      VideoPlayerController controller, ScrollController scrollController) {
     return Scaffold(
         appBar: AppBar(title: const Text("Play Video")),
-        body: Column(
-          children: [
-            Flexible(
-                flex: 1, child: _bodyVideoScreen(controller, scrollController)),
-            _navigationBar()
+        body: Stack(
+          children: <Widget>[
+            Navigator(
+              onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
+                settings: settings,
+                builder: (BuildContext context) => FirstScreen(),
+              ),
+            ),
+            _videoScreenHome(controller, scrollController),
           ],
         ));
   }
 
-  Widget _bodyVideoScreen(
+  Widget _videoScreenHome(
       VideoPlayerController controller, ScrollController scrollController) {
+    return Column(
+      children: [
+        Expanded(
+            flex: 1, child: _bodyVideoScreen(controller, scrollController, 0)),
+        _navigationBar()
+      ],
+    );
+  }
+
+  Widget _bodyVideoScreen(
+      VideoPlayerController controller, ScrollController scrollController, double paddingTop) {
     var videos = fakeItems();
     return Column(children: [
-      _playerView(_width, _height, controller, scrollController),
+      GestureDetector(
+        child: _playerView(_width, _height, controller, scrollController),
+        onHorizontalDragUpdate: (offset) {
+          notify("[onHorizontalDragUpdate] ${offset.delta.toString()}");
+          // _calculate(offset.delta.dy);
+        },
+        onVerticalDragUpdate: (offset) {
+          notify("[onVerticalDragUpdate] ${offset.delta.toString()}");
+        },
+      ),
       _content(),
       _iconViews(),
       _listVideos(videos),
@@ -77,6 +105,7 @@ class _HomeState extends State<Home> {
 
   Widget _playerView(double w, double h, VideoPlayerController controller,
       ScrollController scrollController) {
+    notify("[PLAYER_VIEW] $h");
     return Stack(
       children: [
         Container(
@@ -121,11 +150,11 @@ class _HomeState extends State<Home> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            IconExpand(1, Icons.link_off, w),
-            IconExpand(1, Icons.share, w),
-            IconExpand(1, Icons.download, w),
-            IconExpand(1, Icons.cut, w),
-            IconExpand(1, Icons.save_alt, w),
+            IconExpand(1, Icons.link_off),
+            IconExpand(1, Icons.share),
+            IconExpand(1, Icons.download),
+            IconExpand(1, Icons.cut),
+            IconExpand(1, Icons.save_alt),
           ],
         ));
   }
@@ -139,11 +168,11 @@ class _HomeState extends State<Home> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            IconExpand(1, Icons.home, w),
-            IconExpand(1, Icons.short_text_outlined, w),
-            IconExpand(1, Icons.add, w),
-            IconExpand(1, Icons.subscriptions, w),
-            IconExpand(1, Icons.video_library, w),
+            IconExpand(1, Icons.home),
+            IconExpand(1, Icons.short_text_outlined),
+            IconExpand(1, Icons.add),
+            IconExpand(1, Icons.subscriptions),
+            IconExpand(1, Icons.video_library),
           ],
         ));
   }

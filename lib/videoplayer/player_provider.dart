@@ -8,12 +8,12 @@ class PlayerManager extends ChangeNotifier {
   void init() {
     controller = VideoPlayerController.asset('assets/videos/video_test01.mp4');
     controller.addListener(() {
-      notify("listent--- ${controller.value.isPlaying}");
+      // notify("listent--- ${controller.value.isPlaying}");
 
     });
 
     controller.initialize().then((value) {
-      notify("initialize");
+      // notify("initialize");
     });
   }
 

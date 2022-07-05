@@ -15,7 +15,9 @@ const UserVideo currentUser = UserVideo(
   profileImageUrl: 'https://www.flaticon.com/free-icon/poster_252341',
   subscribers: '100tr',
 );
-
+enum Type{
+  item, header
+}
 class Video {
   final String id;
   final UserVideo author;
@@ -26,6 +28,7 @@ class Video {
   final String viewCount;
   final String likes;
   final String dislikes;
+  final Type type;
 
   const Video({
     required this.id,
@@ -37,12 +40,17 @@ class Video {
     required this.viewCount,
     required this.likes,
     required this.dislikes,
+    required this.type,
   });
 }
 List<Video> fakeItems() {
   List<Video> videos=[];
   for(int i=0; i<10;i++){
+    if(i==0){
+      videos.add(fakeHeader());
+    }else{
     videos.add(fakeVideo());
+    }
   }
 
   return videos;
@@ -60,5 +68,22 @@ Video fakeVideo(){
     viewCount: '10K',
     likes: '958',
     dislikes: '4',
+    type: Type.item
+  );
+}
+
+Video fakeHeader(){
+  return  Video(
+      id: 'x606y4QWrxo',
+      author: currentUser,
+      title: 'this is animal in animal world',
+      thumbnailUrl:
+      'https://images.pexels.com/photos/751829/pexels-photo-751829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+      duration: '8:20',
+      timestamp: DateTime(2021, 3, 20),
+      viewCount: '10K',
+      likes: '958',
+      dislikes: '4',
+      type: Type.header
   );
 }
