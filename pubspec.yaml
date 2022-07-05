@@ -19,6 +19,7 @@ dependencies:
   miniplayer: ^1.0.0+2
   provider: ^6.0.3
   flutter_riverpod: ^0.13.1+1
+  video_player: ^2.2.18
 
 
   cupertino_icons: ^1.0.2
@@ -34,3 +35,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/videos/video_test01.mp4
