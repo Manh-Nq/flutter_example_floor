@@ -47,19 +47,18 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     var controller = context.read<PlayerManager>().controller;
     return Stack(
-      children: [_player(controller, scrollController)],
+      children: [_videoScreenHome(controller, scrollController)],
     );
   }
 
-  Widget _player(
+  Widget _videoScreenHome(
       VideoPlayerController controller, ScrollController scrollController) {
     return Scaffold(
         appBar: AppBar(title: const Text("Play Video")),
         body: Column(
           children: [
             Flexible(
-                flex: 1,
-                child: _bodyVideoScreen(controller, scrollController)),
+                flex: 1, child: _bodyVideoScreen(controller, scrollController)),
             _navigationBar()
           ],
         ));
@@ -69,55 +68,48 @@ class _HomeState extends State<Home> {
       VideoPlayerController controller, ScrollController scrollController) {
     var videos = fakeItems();
     return Column(children: [
-      Stack(
-    children: [
-      Container(
-        height: _height,
-        width: _width,
-        child: Positioned(top: 0, left: 0, child: VideoPlayer(controller)),
-      ),
-      Positioned(
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: IconButton(
-            onPressed: () {
-              if (controller.value.isPlaying) {
-                controller.pause();
-              } else {
-                controller.play();
-              }
-              setState(() {});
-            },
-            icon: Icon(
-              controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-              size: 40,
-            )),
-      ),
-    ],
-      ),
-      const Padding(
-    padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 8),
-    child: Text(
-      "Tập thể dục buổi sáng, Gà trống mèo con Cún con - Liên khúc nhạc thiếu nhi",
-      maxLines: 2,
-      style: TextStyle(fontSize: 16),
-    ),
-      ),
+      _playerView(_width, _height, controller, scrollController),
+      _content(),
       _iconViews(),
-      Expanded(
-    flex: 1,
-    child: Scrollbar(
-        child: ListView.builder(
-      controller: scrollController,
-      itemBuilder: (context, index) {
-        return VideoCard(video: videos[index]);
-      },
-      itemCount: videos.length,
-    )),
-      ),
+      _listVideos(videos),
     ]);
+  }
+
+  Widget _playerView(double w, double h, VideoPlayerController controller,
+      ScrollController scrollController) {
+    return Stack(
+      children: [
+        Container(
+          height: h,
+          width: w,
+          child: Positioned(
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: VideoPlayer(controller)),
+        ),
+        Positioned(
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: IconButton(
+              onPressed: () {
+                if (controller.value.isPlaying) {
+                  controller.pause();
+                } else {
+                  controller.play();
+                }
+                setState(() {});
+              },
+              icon: Icon(
+                controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                size: 40,
+              )),
+        ),
+      ],
+    );
   }
 
   Widget _iconViews() {
@@ -129,29 +121,56 @@ class _HomeState extends State<Home> {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
+            IconExpand(1, Icons.link_off, w),
             IconExpand(1, Icons.share, w),
-            IconExpand(1, Icons.account_box, w),
-            IconExpand(1, Icons.dangerous, w),
-            IconExpand(1, Icons.dark_mode, w),
-            IconExpand(1, Icons.access_time_outlined, w),
+            IconExpand(1, Icons.download, w),
+            IconExpand(1, Icons.cut, w),
+            IconExpand(1, Icons.save_alt, w),
           ],
         ));
   }
 
   Widget _navigationBar() {
     double fw = MediaQuery.of(context).size.width;
-    double w = fw / 3;
+    double w = fw / 5;
     return Container(
         width: fw,
         height: 50,
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            IconExpand(1, Icons.arrow_back_ios, w),
             IconExpand(1, Icons.home, w),
-            IconExpand(1, Icons.multiple_stop, w),
+            IconExpand(1, Icons.short_text_outlined, w),
+            IconExpand(1, Icons.add, w),
+            IconExpand(1, Icons.subscriptions, w),
+            IconExpand(1, Icons.video_library, w),
           ],
         ));
+  }
+
+  Widget _content() {
+    return const Padding(
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 8),
+      child: Text(
+        "Tập thể dục buổi sáng, Gà trống mèo con Cún con - Liên khúc nhạc thiếu nhi",
+        maxLines: 2,
+        style: TextStyle(fontSize: 16),
+      ),
+    );
+  }
+
+  Widget _listVideos(List<Video> videos) {
+    return Expanded(
+      flex: 1,
+      child: Scrollbar(
+          child: ListView.builder(
+        controller: scrollController,
+        itemBuilder: (context, index) {
+          return VideoCard(video: videos[index]);
+        },
+        itemCount: videos.length,
+      )),
+    );
   }
 
   void _scrollListener() {

@@ -15,7 +15,7 @@ class AnimatedContentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MiniplayerController(),
-      child: MyHomePage(),
+      child: MaterialApp(home: MyHomePage(),),
     );
   }
 }
