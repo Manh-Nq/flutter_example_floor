@@ -10,6 +10,7 @@ import 'package:sqlite_demo/provider/screen/screen_count_comsumer.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_mutil_provider.dart';
 import 'package:sqlite_demo/userscreen/user_bloc.dart';
 import 'package:sqlite_demo/userscreen/user_screen.dart';
+import 'package:sqlite_demo/videoplayer/video_player.dart';
 
 import 'animate/example_mini_player.dart';
 
@@ -77,10 +78,10 @@ class _HomePageState extends State<HomePage> {
               featureButton(const ScreenConsumer(), "go to screen Consumer"),
               featureButton(
                   const ScreenMutilScreen(), "go to screen Multi Provider"),
-              // featureButton(
-              //     const AnimatedContentScreen(), "go to screen Animated"),
               featureButton(
-                  const ShareApp(), "go to screen Share"),
+                  const AnimatedContentScreen(), "go to screen Animated"),
+              featureButton(
+                  const VideoPLayerScreen(), "go to VideoPLayerScreen"),
             ],
           ),
         ],

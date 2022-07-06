@@ -1,13 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
-import 'package:sqlite_demo/animate/video_card.dart';
 import 'package:sqlite_demo/videoplayer/player_provider.dart';
-import 'package:video_player/video_player.dart';
 
 import '../extension.dart';
+import '../miniplayer/miniplayer.dart';
 import 'Video.dart';
 import 'elements.dart';
 
@@ -71,19 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {});
                       });
                     },
-                    onDismiss: () {
-                      notify("dissmiss");
-                    },
-                    onDismissed: () {
-                      notify("onDismissed");
-                    },
                   ),
                 ],
               );
             },
           ),
         ),
-        navigationBar(context)
+        navigationBar()
       ],
     ));
   }

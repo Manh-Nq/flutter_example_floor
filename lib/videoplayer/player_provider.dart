@@ -7,8 +7,6 @@ import 'package:video_player/video_player.dart';
 class PlayerManager extends ChangeNotifier {
   late VideoPlayerController controller;
 
-  // bool isPlay = false;
-
   void init() {
       controller =
           VideoPlayerController.asset('assets/videos/video_test01.mp4');

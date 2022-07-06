@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sqlite_demo/animate/elements.dart';
 import 'package:sqlite_demo/extension.dart';
 import 'package:sqlite_demo/videoplayer/player_provider.dart';
 import 'package:video_player/video_player.dart';
@@ -24,52 +27,51 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late ScrollController scrollController;
-  double _height = 200;
-  late double _width = 0;
+  double topPadding = 0;
+  double oldTop = 0;
+  double heightView = 0;
+  double widthView = 0;
+  late AnimationController animationController;
+
+  late Animation<double> animation;
 
   @override
   void initState() {
     context.read<PlayerManager>().init();
     scrollController = ScrollController();
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 150));
+    animation = Tween<double>(begin: oldTop, end: topPadding)
+        .animate(animationController);
     super.initState();
   }
 
   @override
-  void didChangeDependencies() {
-    setState(() {
-      _width = MediaQuery.of(context).size.width;
-    });
-    super.didChangeDependencies();
-  }
-
-  void _calculate(double offset) {
-    setState(() {
-      if (_height > 50) {
-        _height -= offset;
-      } else {
-        _height = _height;
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    heightView = MediaQuery.of(context).size.height;
+    widthView = MediaQuery.of(context).size.width;
     var controller = context.read<PlayerManager>().controller;
-    return Scaffold(
-        appBar: AppBar(title: const Text("Play Video")),
-        body: Stack(
-          children: <Widget>[
-            Navigator(
-              onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
-                settings: settings,
-                builder: (BuildContext context) => FirstScreen(),
-              ),
-            ),
-            _videoScreenHome(controller, scrollController),
-          ],
-        ));
+
+    notify("[animation.value]${animation.value}");
+    return Stack(
+      children: <Widget>[
+        Navigator(
+          onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
+            settings: settings,
+            builder: (BuildContext context) => FirstScreen(),
+          ),
+        ),
+        AnimatedPositioned(
+            top: animation.value,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            duration: Duration(milliseconds: 150),
+            child: _videoScreenHome(controller, scrollController))
+      ],
+    );
   }
 
   Widget _videoScreenHome(
@@ -77,182 +79,80 @@ class _HomeState extends State<Home> {
     return Column(
       children: [
         Expanded(
-            flex: 1, child: _bodyVideoScreen(controller, scrollController, 0)),
-        _navigationBar()
+            flex: 1,
+            child: Column(children: [
+              GestureDetector(
+                child: _playerView(controller, scrollController),
+                onHorizontalDragUpdate: (offset) {
+                  setState(() {
+                    _calculate(offset.localPosition.dy);
+                  });
+                },
+                onHorizontalDragEnd: (details) {
+                  _calculatorUp(topPadding);
+                },
+              ),
+              Expanded(child: Container(color: Colors.red))
+            ])),
+        navigationBar(),
       ],
     );
   }
 
-  Widget _bodyVideoScreen(
-      VideoPlayerController controller, ScrollController scrollController, double paddingTop) {
-    var videos = fakeItems();
-    return Column(children: [
-      GestureDetector(
-        child: _playerView(_width, _height, controller, scrollController),
-        onHorizontalDragUpdate: (offset) {
-          notify("[onHorizontalDragUpdate] ${offset.delta.toString()}");
-          // _calculate(offset.delta.dy);
-        },
-        onVerticalDragUpdate: (offset) {
-          notify("[onVerticalDragUpdate] ${offset.delta.toString()}");
-        },
-      ),
-      _content(),
-      _iconViews(),
-      _listVideos(videos),
-    ]);
-  }
-
-  Widget _playerView(double w, double h, VideoPlayerController controller,
-      ScrollController scrollController) {
-    notify("[PLAYER_VIEW] $h");
+  Widget _playerView(
+      VideoPlayerController controller, ScrollController scrollController) {
+    var height = lerpDouble(200, 56, 0.0);
+    var width = lerpDouble(widthView, 120, 0.0);
     return Stack(
       children: [
-        Container(
-          height: h,
-          width: w,
-          child: Positioned(
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: VideoPlayer(controller)),
-        ),
-        Positioned(
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: IconButton(
-              onPressed: () {
-                if (controller.value.isPlaying) {
-                  controller.pause();
-                } else {
-                  controller.play();
-                }
-                setState(() {});
-              },
-              icon: Icon(
-                controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                size: 40,
-              )),
-        ),
-      ],
-    );
-  }
-
-  Widget _iconViews() {
-    return Row(
-      children: const [
-        Expanded(
-          flex: 1,
-          child: Icon(
-            Icons.link_off,
-            size: 25,
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Icon(
-            Icons.share,
-            size: 25,
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Icon(
-            Icons.download,
-            size: 25,
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Icon(
-            Icons.cut,
-            size: 25,
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Icon(
-            Icons.save_alt,
-            size: 25,
+        GestureDetector(
+          onTap: () {
+            if (controller.value.isPlaying) {
+              controller.pause();
+            } else {
+              controller.play();
+            }
+            setState(() {});
+          },
+          child: Container(
+            height: height,
+            width: width,
+            child: VideoPlayer(controller),
           ),
         )
       ],
     );
   }
 
-  Widget _navigationBar() {
-    return    Container(
-      color: Colors.white,
-      height: 48,
-      child: Row(
-        children: const [
-          Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.home,
-                size: 25,
-              )),
-          Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.short_text_outlined,
-                size: 25,
-              )),
-          Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.add,
-                size: 25,
-              )),
-          Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.subscriptions,
-                size: 25,
-              )),
-          Expanded(
-              flex: 1,
-              child: Icon(
-                Icons.video_library,
-                size: 25,
-              )),
-        ],
-      ),
-    );
+  void _calculate(double dy) {
+    setState(() {
+      oldTop = topPadding;
+      if (dy < 0) {
+        topPadding = 0;
+      } else {
+        if (dy > (heightView - 335)) {
+          topPadding = heightView - 335;
+        } else {
+          topPadding = dy;
+        }
+      }
+    });
+    animation = Tween<double>(begin: oldTop, end: topPadding)
+        .animate(animationController);
+    animationController.forward();
   }
 
-  Widget _content() {
-    return const Padding(
-      padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 8),
-      child: Text(
-        "Tập thể dục buổi sáng, Gà trống mèo con Cún con - Liên khúc nhạc thiếu nhi",
-        maxLines: 2,
-        style: TextStyle(fontSize: 16),
-      ),
-    );
-  }
-
-  Widget _listVideos(List<Video> videos) {
-    return Expanded(
-      flex: 1,
-      child: Scrollbar(
-          child: ListView.builder(
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          return VideoCard(video: videos[index]);
-        },
-        itemCount: videos.length,
-      )),
-    );
-  }
-
-  void _scrollListener() {
-    print(scrollController.position.extentAfter);
-    if (scrollController.position.extentAfter < 500) {
-      setState(() {});
-    }
+  void _calculatorUp(double offset) {
+    setState(() {
+      oldTop = topPadding;
+      if (offset <= heightView / 2) {
+        topPadding = 0;
+      } else {
+        topPadding = heightView - 335;
+      }
+    });
+    animation = Tween<double>(begin: oldTop, end: topPadding)
+        .animate(animationController);
+    animationController.forward();
   }
 }

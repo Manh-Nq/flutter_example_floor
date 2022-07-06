@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:miniplayer/miniplayer.dart';
 import 'package:sqlite_demo/animate/video_card.dart';
 import 'package:sqlite_demo/videoplayer/player_provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../extension.dart';
+import '../miniplayer/miniplayer.dart';
 import 'Video.dart';
 
 Widget videoScreen(
@@ -35,7 +35,6 @@ Widget videoScreen(
           GestureDetector(
             onTap: () {
               notify("click video");
-              // provider.animateToHeight(state: PanelState.MIN);
               if (playerManager.controller.value.isPlaying) {
                 playerManager.pause();
               } else {
@@ -101,12 +100,15 @@ Widget iconViews() {
 Widget contentVideoMini(
     PlayerManager playerManager, double opacity, VoidCallback callback) {
   return Padding(
-    padding: const EdgeInsets.only(left: 150),
+    padding: const EdgeInsets.only(left: 128),
     child: Opacity(
         opacity: opacity,
         child: Row(
           children: [
-            Column(
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
                 Text(
                   "this is content video",
@@ -116,7 +118,7 @@ Widget contentVideoMini(
                     style:
                         TextStyle(fontSize: 12, fontWeight: FontWeight.w200)),
               ],
-            ),
+            )),
             IconButton(
                 onPressed: () {
                   if (playerManager.controller.value.isPlaying) {
@@ -138,7 +140,7 @@ Widget contentVideoMini(
   );
 }
 
-Widget navigationBar(BuildContext context) {
+Widget navigationBar() {
   return Container(
     color: Colors.white,
     height: 48,
