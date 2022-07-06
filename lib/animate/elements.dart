@@ -99,16 +99,17 @@ Widget iconViews() {
 
 Widget contentVideoMini(
     PlayerManager playerManager, double opacity, VoidCallback callback) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 128),
-    child: Opacity(
-        opacity: opacity,
+  return Opacity(
+      opacity: opacity,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 128),
         child: Row(
           children: [
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
               children: const [
                 Text(
                   "this is content video",
@@ -119,8 +120,8 @@ Widget contentVideoMini(
                         TextStyle(fontSize: 12, fontWeight: FontWeight.w200)),
               ],
             )),
-            IconButton(
-                onPressed: () {
+            InkWell(
+                onTap: () {
                   if (playerManager.controller.value.isPlaying) {
                     playerManager.pause();
                   } else {
@@ -128,16 +129,22 @@ Widget contentVideoMini(
                   }
                   callback();
                 },
-                icon: Icon(
+                child: Icon(
                   playerManager.controller.value.isPlaying
                       ? Icons.pause
                       : Icons.play_arrow,
-                  size: 40,
+                  size: 32,
                 )),
-            IconButton(onPressed: () {}, icon: Icon(Icons.close)),
+
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.close,
+                  size: 32,
+                )),
           ],
-        )),
-  );
+        ),
+      ));
 }
 
 Widget navigationBar() {

@@ -48,20 +48,25 @@ class Miniplayer extends StatefulWidget {
   //Allows you to manually control the miniplayer in code
   final MiniplayerController? controller;
 
-  const Miniplayer({
-    Key? key,
-    required this.minHeight,
-    required this.maxHeight,
-    required this.builder,
-    this.curve = Curves.easeOut,
-    this.elevation = 0,
-    this.backgroundColor = const Color(0x70000000),
-    this.valueNotifier,
-    this.duration = const Duration(milliseconds: 300),
-    this.onDismiss,
-    this.onDismissed,
-    this.controller,
-  }) : super(key: key);
+  ///1 : max height
+  ///0: min height
+  final ViewState initViewState;
+
+  const Miniplayer(
+      {Key? key,
+      required this.minHeight,
+      required this.maxHeight,
+      required this.builder,
+      this.curve = Curves.easeOut,
+      this.elevation = 0,
+      this.backgroundColor = const Color(0x70000000),
+      this.valueNotifier,
+      this.duration = const Duration(milliseconds: 300),
+      this.onDismiss,
+      this.onDismissed,
+      this.controller,
+      this.initViewState = ViewState.MAX})
+      : super(key: key);
 
   @override
   _MiniplayerState createState() => _MiniplayerState();
@@ -110,7 +115,9 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
   @override
   void initState() {
     if (widget.valueNotifier == null) {
-      heightNotifier = ValueNotifier(widget.maxHeight);
+      heightNotifier = ValueNotifier((widget.initViewState == ViewState.MAX)
+          ? widget.maxHeight
+          : widget.minHeight);
     } else {
       heightNotifier = widget.valueNotifier!;
     }
@@ -173,7 +180,9 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
             children: [
               if (_percentage > 0)
                 GestureDetector(
-                  onTap: () => _animateToHeight(widget.minHeight),
+                  onTap: () {
+                    _animateToHeight(widget.minHeight);
+                  },
                   child: Opacity(
                     opacity: borderDouble(
                         minRange: 0.0, maxRange: 1.0, value: _percentage),
@@ -216,9 +225,14 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    onTap: () => _snapToPosition(_dragHeight != widget.maxHeight
-                        ? PanelState.MAX
-                        : PanelState.MIN),
+                    onTap: () {
+                      // _snapToPosition(_dragHeight != widget.maxHeight
+                      //     ? PanelState.MAX
+                      //     : PanelState.MIN);
+                      if (_dragHeight == widget.minHeight) {
+                        _snapToPosition(PanelState.MAX);
+                      }
+                    },
                     onPanStart: (details) {
                       _startHeight = _dragHeight;
                       updateCount = 0;
@@ -412,6 +426,8 @@ class _MiniplayerState extends State<Miniplayer> with TickerProviderStateMixin {
 
 ///-1 Min, -2 Max, -3 Dismiss
 enum PanelState { MAX, MIN, DISMISS }
+
+enum ViewState { MAX, MIN }
 
 //ControllerData class. Used for the controller
 class ControllerData {

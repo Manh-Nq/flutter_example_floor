@@ -35,6 +35,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   double widthView = 0;
   late AnimationController animationController;
 
+  late double _dragHeight;
+
   late Animation<double> animation;
 
   @override
@@ -54,7 +56,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     widthView = MediaQuery.of(context).size.width;
     var controller = context.read<PlayerManager>().controller;
 
-    notify("[animation.value]${animation.value}");
+    // notify("[animation.value]${animation.value}");
     return Stack(
       children: <Widget>[
         Navigator(
@@ -101,10 +103,39 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   Widget _playerView(
       VideoPlayerController controller, ScrollController scrollController) {
-    var height = lerpDouble(200, 56, 0.0);
-    var width = lerpDouble(widthView, 120, 0.0);
+    var percent = topPadding / heightView;
+
+    var height = lerpDouble(200, 56, percent);
+    var width = lerpDouble(widthView, 120, percent);
     return Stack(
+      alignment: AlignmentDirectional.centerStart,
       children: [
+        // Row(
+        //   children: [
+        //     Column(
+        //       children: const [
+        //         Text(
+        //           "this is content video",
+        //           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+        //         ),
+        //         Text("robert fukuda",
+        //             style:
+        //             TextStyle(fontSize: 12, fontWeight: FontWeight.w200)),
+        //       ],
+        //     ),
+        //     const Icon(
+        //       Icons.play_arrow,
+        //       size: 32,
+        //     ),
+        //
+        //     IconButton(
+        //         onPressed: () {},
+        //         icon: const Icon(
+        //           Icons.close,
+        //           size: 32,
+        //         )),
+        //   ],
+        // ),
         GestureDetector(
           onTap: () {
             if (controller.value.isPlaying) {
@@ -125,14 +156,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   void _calculate(double dy) {
+    notify("[DY] $dy");
     setState(() {
       oldTop = topPadding;
       if (dy < 0) {
+        notify("[DY<0] $dy");
         topPadding = 0;
       } else {
-        if (dy > (heightView - 335)) {
-          topPadding = heightView - 335;
+        if (dy > (heightView - 248)) {
+          notify("[DY>238] $dy");
+          topPadding = heightView - 248;
         } else {
+          notify("[DY - Accept] $dy");
           topPadding = dy;
         }
       }
@@ -143,12 +178,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   void _calculatorUp(double offset) {
+    // notify("[topPadding] $topPadding");
+
     setState(() {
       oldTop = topPadding;
       if (offset <= heightView / 2) {
         topPadding = 0;
       } else {
-        topPadding = heightView - 335;
+        topPadding = heightView;
       }
     });
     animation = Tween<double>(begin: oldTop, end: topPadding)

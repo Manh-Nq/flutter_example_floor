@@ -73,17 +73,17 @@ Video fakeVideo(){
 }
 
 Video fakeHeader(){
-  return  Video(
-      id: 'x606y4QWrxo',
+  return Video(
+      id: '',
       author: currentUser,
-      title: 'this is animal in animal world',
+      title: '',
       thumbnailUrl:
-      'https://images.pexels.com/photos/751829/pexels-photo-751829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      duration: '8:20',
+      '',
+      duration: '',
       timestamp: DateTime(2021, 3, 20),
-      viewCount: '10K',
-      likes: '958',
-      dislikes: '4',
+      viewCount: '',
+      likes: '',
+      dislikes: '',
       type: Type.header
   );
 }

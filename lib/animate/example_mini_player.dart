@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   FirstScreen(),
                   Miniplayer(
                     controller: provider,
+                    initViewState: ViewState.MAX,
                     minHeight: 70,
                     maxHeight: height,
                     curve: Curves.linearToEaseOut,
