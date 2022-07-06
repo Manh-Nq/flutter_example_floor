@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:sqlite_demo/animate/video_card.dart';
+import 'package:sqlite_demo/videoplayer/player_provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../extension.dart';
@@ -14,7 +15,7 @@ Widget videoScreen(
     double percentage,
     double width,
     ScrollController scrollController,
-    VideoPlayerController controller,
+    PlayerManager playerManager,
     VoidCallback callback) {
   var videos = fakeItems();
 
@@ -29,21 +30,21 @@ Widget videoScreen(
       Stack(
         alignment: AlignmentDirectional.centerStart,
         children: [
-          contentVideoMini(controller, opacity, () {
+          contentVideoMini(playerManager, opacity, () {
             callback();
           }),
           GestureDetector(
             onTap: () {
               notify("click video");
               // provider.animateToHeight(state: PanelState.MIN);
-              if (controller.value.isPlaying) {
-                controller.pause();
+              if (playerManager.controller.value.isPlaying) {
+                playerManager.pause();
               } else {
-                controller.play();
+                playerManager.play();
               }
             }, // Image tapped
             child: Container(
-                height: _height, width: _width, child: VideoPlayer(controller)),
+                height: _height, width: _width, child: VideoPlayer(playerManager.controller)),
           ),
         ],
       ),
@@ -67,7 +68,7 @@ Widget iconViews() {
 }
 
 Widget contentVideoMini(
-    VideoPlayerController controller, double opacity, VoidCallback callback) {
+    PlayerManager playerManager, double opacity, VoidCallback callback) {
   return Padding(
     padding: const EdgeInsets.only(left: 150),
     child: Opacity(
@@ -87,15 +88,15 @@ Widget contentVideoMini(
             ),
             IconButton(
                 onPressed: () {
-                  if (controller.value.isPlaying) {
-                    controller.pause();
+                  if (playerManager.controller.value.isPlaying) {
+                    playerManager.pause();
                   } else {
-                    controller.play();
+                    playerManager.play();
                   }
                   callback();
                 },
                 icon: Icon(
-                  controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  playerManager.controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
                   size: 40,
                 )),
             IconButton(onPressed: () {}, icon: Icon(Icons.close)),

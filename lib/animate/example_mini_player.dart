@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    var controller = context.read<PlayerManager>().controller;
+    var playerManager = context.read<PlayerManager>();
 
     return Scaffold(
         body: Column(
@@ -61,15 +61,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   FirstScreen(),
                   Miniplayer(
-                      controller: provider,
-                      minHeight: 70,
-                      maxHeight: height,
-                      builder: (height, percentage) {
-                        return videoScreen(provider, percentage, width,
-                            scrollController, controller, () {
-                          setState(() {});
-                        });
-                      }),
+                    controller: provider,
+                    minHeight: 70,
+                    maxHeight: height,
+                    curve: Curves.linearToEaseOut,
+                    builder: (height, percentage) {
+                      return videoScreen(provider, percentage, width,
+                          scrollController, playerManager, () {
+                        setState(() {});
+                      });
+                    },
+                    onDismiss: () {
+                      notify("dissmiss");
+                    },
+                    onDismissed: () {
+                      notify("onDismissed");
+                    },
+                  ),
                 ],
               );
             },
