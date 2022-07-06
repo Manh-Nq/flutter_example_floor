@@ -142,39 +142,86 @@ class _HomeState extends State<Home> {
   }
 
   Widget _iconViews() {
-    double fw = MediaQuery.of(context).size.width;
-    double w = fw / 5;
-    return Container(
-        width: fw,
-        height: 50,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            IconExpand(1, Icons.link_off),
-            IconExpand(1, Icons.share),
-            IconExpand(1, Icons.download),
-            IconExpand(1, Icons.cut),
-            IconExpand(1, Icons.save_alt),
-          ],
-        ));
+    return Row(
+      children: const [
+        Expanded(
+          flex: 1,
+          child: Icon(
+            Icons.link_off,
+            size: 25,
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Icon(
+            Icons.share,
+            size: 25,
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Icon(
+            Icons.download,
+            size: 25,
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Icon(
+            Icons.cut,
+            size: 25,
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Icon(
+            Icons.save_alt,
+            size: 25,
+          ),
+        )
+      ],
+    );
   }
 
   Widget _navigationBar() {
-    double fw = MediaQuery.of(context).size.width;
-    double w = fw / 5;
-    return Container(
-        width: fw,
-        height: 50,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            IconExpand(1, Icons.home),
-            IconExpand(1, Icons.short_text_outlined),
-            IconExpand(1, Icons.add),
-            IconExpand(1, Icons.subscriptions),
-            IconExpand(1, Icons.video_library),
-          ],
-        ));
+    return    Container(
+      color: Colors.white,
+      height: 48,
+      child: Row(
+        children: const [
+          Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.home,
+                size: 25,
+              )),
+          Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.short_text_outlined,
+                size: 25,
+              )),
+          Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.add,
+                size: 25,
+              )),
+          Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.subscriptions,
+                size: 25,
+              )),
+          Expanded(
+              flex: 1,
+              child: Icon(
+                Icons.video_library,
+                size: 25,
+              )),
+        ],
+      ),
+    );
   }
 
   Widget _content() {

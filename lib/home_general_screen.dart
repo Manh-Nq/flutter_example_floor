@@ -77,8 +77,8 @@ class _HomePageState extends State<HomePage> {
               featureButton(const ScreenConsumer(), "go to screen Consumer"),
               featureButton(
                   const ScreenMutilScreen(), "go to screen Multi Provider"),
-              featureButton(
-                  const AnimatedContentScreen(), "go to screen Animated"),
+              // featureButton(
+              //     const AnimatedContentScreen(), "go to screen Animated"),
               featureButton(
                   const ShareApp(), "go to screen Share"),
             ],

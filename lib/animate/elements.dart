@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:sqlite_demo/animate/video_card.dart';
@@ -44,7 +43,9 @@ Widget videoScreen(
               }
             }, // Image tapped
             child: Container(
-                height: _height, width: _width, child: VideoPlayer(playerManager.controller)),
+                height: _height,
+                width: _width,
+                child: VideoPlayer(playerManager.controller)),
           ),
         ],
       ),
@@ -57,12 +58,42 @@ Widget videoScreen(
 
 Widget iconViews() {
   return Row(
-    children: [
-      IconExpand(1, Icons.link_off),
-      IconExpand(1, Icons.share),
-      IconExpand(1, Icons.download),
-      IconExpand(1, Icons.cut),
-      IconExpand(1, Icons.save_alt),
+    children: const [
+      Expanded(
+        flex: 1,
+        child: Icon(
+          Icons.link_off,
+          size: 25,
+        ),
+      ),
+      Expanded(
+        flex: 1,
+        child: Icon(
+          Icons.share,
+          size: 25,
+        ),
+      ),
+      Expanded(
+        flex: 1,
+        child: Icon(
+          Icons.download,
+          size: 25,
+        ),
+      ),
+      Expanded(
+        flex: 1,
+        child: Icon(
+          Icons.cut,
+          size: 25,
+        ),
+      ),
+      Expanded(
+        flex: 1,
+        child: Icon(
+          Icons.save_alt,
+          size: 25,
+        ),
+      )
     ],
   );
 }
@@ -96,7 +127,9 @@ Widget contentVideoMini(
                   callback();
                 },
                 icon: Icon(
-                  playerManager.controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  playerManager.controller.value.isPlaying
+                      ? Icons.pause
+                      : Icons.play_arrow,
                   size: 40,
                 )),
             IconButton(onPressed: () {}, icon: Icon(Icons.close)),
@@ -106,22 +139,44 @@ Widget contentVideoMini(
 }
 
 Widget navigationBar(BuildContext context) {
-  double fw = MediaQuery.of(context).size.width;
-  double w = fw / 5;
   return Container(
-      color: Colors.white,
-      width: fw,
-      height: 48,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          IconNav(1, Icons.home, w),
-          IconNav(1, Icons.short_text_outlined, w),
-          IconNav(1, Icons.add, w),
-          IconNav(1, Icons.subscriptions, w),
-          IconNav(1, Icons.video_library, w),
-        ],
-      ));
+    color: Colors.white,
+    height: 48,
+    child: Row(
+      children: const [
+        Expanded(
+            flex: 1,
+            child: Icon(
+              Icons.home,
+              size: 25,
+            )),
+        Expanded(
+            flex: 1,
+            child: Icon(
+              Icons.short_text_outlined,
+              size: 25,
+            )),
+        Expanded(
+            flex: 1,
+            child: Icon(
+              Icons.add,
+              size: 25,
+            )),
+        Expanded(
+            flex: 1,
+            child: Icon(
+              Icons.subscriptions,
+              size: 25,
+            )),
+        Expanded(
+            flex: 1,
+            child: Icon(
+              Icons.video_library,
+              size: 25,
+            )),
+      ],
+    ),
+  );
 }
 
 Widget content() {
@@ -161,9 +216,19 @@ Widget headerItem() {
     height: 80,
     child: Column(
       children: [
-        const Text("But if you want to change the opacity of all the widget, in your case a Container, you can wrap it into a Opacity widget like this",
-            style: TextStyle(fontSize: 18), textAlign: TextAlign.left, maxLines: 2,overflow: TextOverflow.ellipsis,),
-        Expanded(child: iconViews(), flex: 1),
+        const Padding(
+          padding: EdgeInsets.only(left: 8, right: 8),
+          child: Text(
+            "But if you want to change the opacity of all the widget, in your case a Container, you can wrap it into a Opacity widget like this",
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.left,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Expanded(
+          child: iconViews(),
+        )
       ],
     ),
   );
