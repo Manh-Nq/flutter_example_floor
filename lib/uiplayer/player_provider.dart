@@ -1,21 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sqlite_demo/extension.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerManager extends ChangeNotifier {
   late VideoPlayerController controller;
 
   void init() {
-      controller =
-          VideoPlayerController.asset('assets/videos/video_test01.mp4');
-      controller.addListener(() {
-      });
-
-      controller.initialize().then((value) {
-        // notify("initialize");
-      });
+    controller = VideoPlayerController.asset('assets/videos/video_test01.mp4')
+      ..addListener(() {})
+      ..initialize().then((value) {});
+    controller.value = VideoPlayerValue(
+        duration: Duration(milliseconds: 0), size: Size(100, 100));
+    notifyListeners();
   }
 
   void seekTo(int seconds) {

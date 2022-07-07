@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:sqlite_demo/animate/video_card.dart';
-import 'package:sqlite_demo/videoplayer/player_provider.dart';
+import 'package:sqlite_demo/uiplayer/video_card.dart';
+import 'package:sqlite_demo/uiplayer/player_provider.dart';
+import 'package:sqlite_demo/uiplayer/player_provider.dart';
 import 'package:video_player/video_player.dart';
 
+import '../uiplayer/player_provider.dart';
 import '../extension.dart';
 import '../miniplayer/miniplayer.dart';
 import 'Video.dart';
@@ -23,7 +25,8 @@ Widget videoScreen(
 
   double? opacity = calculateOpacity(percentage);
   double? opacityList = lerpDouble(0.0, 1.0, percentage);
-
+  notify(
+      "${playerManager.controller.value.size.width}----${playerManager.controller.value.size.height}");
   return Column(
     children: [
       Stack(
@@ -33,19 +36,18 @@ Widget videoScreen(
             callback();
           }),
           GestureDetector(
-            onTap: () {
-              notify("click video");
-              if (playerManager.controller.value.isPlaying) {
-                playerManager.pause();
-              } else {
-                playerManager.play();
-              }
-            }, // Image tapped
-            child: Container(
-                height: _height,
-                width: _width,
-                child: VideoPlayer(playerManager.controller)),
-          ),
+              onTap: () {
+                notify("click video");
+                if (playerManager.controller.value.isPlaying) {
+                  playerManager.pause();
+                } else {
+                  playerManager.play();
+                }
+              }, // Image tapped
+              child: SizedBox(
+                  height: _height,
+                  width: _width,
+                  child: VideoPlayer(playerManager.controller))),
         ],
       ),
       Expanded(
@@ -135,7 +137,6 @@ Widget contentVideoMini(
                       : Icons.play_arrow,
                   size: 32,
                 )),
-
             IconButton(
                 onPressed: () {},
                 icon: Icon(

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sqlite_demo/videoplayer/player_provider.dart';
+import 'package:sqlite_demo/uiplayer/player_provider.dart';
 
 import '../extension.dart';
 import '../miniplayer/miniplayer.dart';

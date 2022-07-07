@@ -21,6 +21,19 @@ double calculateWidth(double width, double percentage) {
   return _width ?? 120;
 }
 
+double calculateHeight(double percentage) {
+  double? h = lerpDouble(70, 220, percentage * 10);
+  if (h != null) {
+    if (h > 220) {
+      h = 220;
+    } else {
+      h = h;
+    }
+  }
+  return h ?? 70;
+}
+
+
 double calculateOpacity(double percentage) {
   double? opacity = lerpDouble(1.0, 0.0, percentage * 10);
 

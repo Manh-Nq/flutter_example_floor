@@ -10,9 +10,9 @@ import 'package:sqlite_demo/provider/screen/screen_count_comsumer.dart';
 import 'package:sqlite_demo/provider/screen/screen_count_mutil_provider.dart';
 import 'package:sqlite_demo/userscreen/user_bloc.dart';
 import 'package:sqlite_demo/userscreen/user_screen.dart';
-import 'package:sqlite_demo/videoplayer/video_player.dart';
 
-import 'animate/example_mini_player.dart';
+import 'navigation/ver2/nested/nested_screen.dart';
+import 'uiplayer/example_mini_player.dart';
 
 class HomeGeneralScreen extends StatelessWidget {
   UserDatabase db;
@@ -77,11 +77,9 @@ class _HomePageState extends State<HomePage> {
               featureButton(const ScreenCount(), "go to screen counter"),
               featureButton(const ScreenConsumer(), "go to screen Consumer"),
               featureButton(
-                  const ScreenMutilScreen(), "go to screen Multi Provider"),
-              featureButton(
-                  const AnimatedContentScreen(), "go to screen Animated"),
-              featureButton(
-                  const VideoPLayerScreen(), "go to VideoPLayerScreen"),
+                  const ScreenMutilScreen(), "go to screen Multi Provider")
+              ,featureButton(
+                   NestedScreen(), "go to NestedScreen")
             ],
           ),
         ],

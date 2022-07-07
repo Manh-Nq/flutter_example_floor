@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sqlite_demo/videoplayer/video_player.dart';
-import 'animate/example_mini_player.dart';
+import 'uiplayer/example_mini_player.dart';
 import 'database/user_database.dart';
 import 'database/userdao.dart';
 import 'home_general_screen.dart';
@@ -18,7 +17,7 @@ void main() {
   // runApp(Nav2SampleScreen());
   // runApp(Nav2AdvancedScreen());
   // runApp(NestedScreen());
-  runApp(VideoPLayerScreen());
-  // runApp(AnimatedContentScreen());
+  // runApp(VideoPLayerScreen());
+  runApp(AnimatedContentScreen());
   // runApp(MyApp());
 }
