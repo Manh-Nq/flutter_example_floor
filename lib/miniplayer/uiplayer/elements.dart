@@ -11,22 +11,26 @@ import '../miniplayer.dart';
 import 'player_provider.dart';
 import 'Video.dart';
 
+const double videoBoxHeight = 220;
+
 Widget videoScreen(
     MiniplayerController provider,
     double percentage,
-    double width,
+    double screenWidth,
     ScrollController scrollController,
     PlayerManager playerManager,
     VoidCallback callback) {
   var videos = fakeItems();
 
   double? _height = lerpDouble(70, 220, percentage);
-  double? _width = calculateWidth(width, percentage);
+  double? _width = calculateWidth(screenWidth, percentage);
+
+  double videoHeight = 220;
 
   double? opacity = calculateOpacity(percentage);
   double? opacityList = lerpDouble(0.0, 1.0, percentage);
-  notify(
-      "${playerManager.controller.value.size.width}----${playerManager.controller.value.size.height}");
+  notify("percentage: $percentage --- width: $_width - height: $videoHeight");
+
   return Column(
     children: [
       Stack(
@@ -44,10 +48,12 @@ Widget videoScreen(
                   playerManager.play();
                 }
               }, // Image tapped
-              child: SizedBox(
-                  height: _height,
-                  width: _width,
-                  child: VideoPlayer(playerManager.controller))),
+              child: FittedBox(
+                child: SizedBox(
+                    height: playerManager.controller.value.size.height,
+                    width: playerManager.controller.value.size.width,
+                    child: VideoPlayer(playerManager.controller)),
+              )),
         ],
       ),
       Expanded(

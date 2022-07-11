@@ -10,15 +10,8 @@ void pushLog(String mes, String tag) {
 }
 
 double calculateWidth(double width, double percentage) {
-  double? _width = lerpDouble(120, width, percentage * 10);
-  if (_width != null) {
-    if (_width > width) {
-      _width = width;
-    } else {
-      _width = _width;
-    }
-  }
-  return _width ?? 120;
+  double? result = lerpDouble(width * 3 / 8.0, width, percentage * 10);
+  return result! > width ? width : result;
 }
 
 double calculateHeight(double percentage) {
@@ -32,7 +25,6 @@ double calculateHeight(double percentage) {
   }
   return h ?? 70;
 }
-
 
 double calculateOpacity(double percentage) {
   double? opacity = lerpDouble(1.0, 0.0, percentage * 10);
