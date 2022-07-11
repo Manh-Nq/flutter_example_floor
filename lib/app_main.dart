@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'uiplayer/example_mini_player.dart';
 import 'database/user_database.dart';
 import 'database/userdao.dart';
 import 'home_general_screen.dart';
+import 'miniplayer/uiplayer/example_mini_player.dart';
 
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();

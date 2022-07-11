@@ -1,14 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:sqlite_demo/uiplayer/video_card.dart';
-import 'package:sqlite_demo/uiplayer/player_provider.dart';
-import 'package:sqlite_demo/uiplayer/player_provider.dart';
+import 'package:sqlite_demo/miniplayer/uiplayer/video_card.dart';
+import 'package:sqlite_demo/miniplayer/uiplayer/player_provider.dart';
+import 'package:sqlite_demo/miniplayer/uiplayer/player_provider.dart';
 import 'package:video_player/video_player.dart';
 
-import '../uiplayer/player_provider.dart';
-import '../extension.dart';
-import '../miniplayer/miniplayer.dart';
+import '../../extension.dart';
+import '../miniplayer.dart';
+import 'player_provider.dart';
 import 'Video.dart';
 
 Widget videoScreen(

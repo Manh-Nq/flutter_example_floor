@@ -12,7 +12,6 @@ import 'package:sqlite_demo/userscreen/user_bloc.dart';
 import 'package:sqlite_demo/userscreen/user_screen.dart';
 
 import 'navigation/ver2/nested/nested_screen.dart';
-import 'uiplayer/example_mini_player.dart';
 
 class HomeGeneralScreen extends StatelessWidget {
   UserDatabase db;
