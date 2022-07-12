@@ -87,6 +87,7 @@ class FirstScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Demo: FirstScreen')),
       body: Container(
+        color: Colors.grey,
         constraints: const BoxConstraints.expand(),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

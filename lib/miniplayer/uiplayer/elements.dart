@@ -12,6 +12,7 @@ import 'player_provider.dart';
 import 'Video.dart';
 
 const double videoBoxHeight = 220;
+const double videoBoxRatio = 360 / 205;
 
 Widget videoScreen(
     MiniplayerController provider,
@@ -22,14 +23,17 @@ Widget videoScreen(
     VoidCallback callback) {
   var videos = fakeItems();
 
-  double? _height = lerpDouble(70, 220, percentage);
-  double? _width = calculateWidth(screenWidth, percentage);
-
-  double videoHeight = 220;
-
   double? opacity = calculateOpacity(percentage);
   double? opacityList = lerpDouble(0.0, 1.0, percentage);
-  notify("percentage: $percentage --- width: $_width - height: $videoHeight");
+
+  double videoWidth = lerp((screenWidth - (56 * 2)) / 2, screenWidth, percentage * 10);
+  double videoHeight = videoWidth / playerManager.controller.value.aspectRatio;
+
+  double? clipHeightFactor = percentage > 0.1
+      ? lerp(112 / (screenWidth / videoBoxRatio), 1, percentage)
+      : 1;
+
+  notify("percentage: $percentage --- clip: $clipHeightFactor");
 
   return Column(
     children: [
@@ -48,11 +52,15 @@ Widget videoScreen(
                   playerManager.play();
                 }
               }, // Image tapped
-              child: FittedBox(
-                child: SizedBox(
-                    height: playerManager.controller.value.size.height,
-                    width: playerManager.controller.value.size.width,
-                    child: VideoPlayer(playerManager.controller)),
+              child: ClipRect(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  heightFactor: clipHeightFactor,
+                  child: SizedBox(
+                      height: videoHeight,
+                      width: videoWidth,
+                      child: VideoPlayer(playerManager.controller)), //
+                ),
               )),
         ],
       ),
@@ -110,7 +118,7 @@ Widget contentVideoMini(
   return Opacity(
       opacity: opacity,
       child: Padding(
-        padding: const EdgeInsets.only(left: 128),
+        padding: const EdgeInsets.only(left: 170),
         child: Row(
           children: [
             Expanded(
@@ -145,7 +153,7 @@ Widget contentVideoMini(
                 )),
             IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.close,
                   size: 32,
                 )),

@@ -26,6 +26,11 @@ double calculateHeight(double percentage) {
   return h ?? 70;
 }
 
+double lerp(double min, double max, double factor) {
+  final result = lerpDouble(min, max, factor);
+  return result! > max ? max : result;
+}
+
 double calculateOpacity(double percentage) {
   double? opacity = lerpDouble(1.0, 0.0, percentage * 10);
 
